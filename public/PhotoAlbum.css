@@ -1,0 +1,285 @@
+body {
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    color: blue;
+}
+
+header {
+    text-align: center;
+    padding: 10px;
+    display: flex;
+}
+
+header h1 {
+    font-weight: bold;
+    font-style: italic;
+    font-size: xx-large;
+    color: #314d7f;
+}
+
+header div {
+    width: 100%;
+}
+
+header div input {
+    border-style: solid;
+    border-color: #a4b9de;
+    font-size: medium;
+    width: 45vw;
+}
+
+header div button {
+    border-style: solid;
+    border-color: #a4b9de;
+    background: white;
+}
+
+main {
+    flex: 1 0 auto;
+    background: #f0f0f0;
+}
+
+input {
+    border-style: solid;
+    font-size: medium;
+}
+
+p {
+    font-size: medium;
+    margin: 10px;
+}
+
+#photoDisplay {
+    margin: 20px;
+}
+
+#noSearch {
+    padding-top: 150px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#noSearch p {
+    font-size: 40px;
+    color: #909eb8;
+}
+
+#input-text {
+    padding-left: 10px;
+}
+
+#searched-tags {
+    display: flex;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#searched-tag-list {
+    display: flex;
+}
+
+div.selectedControls {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    background: #00000077;
+}
+
+div.normalControls {
+    display: none;
+}
+
+div.tile {
+    backgroundColor: #eee;
+    cursor: pointer;
+    overflow: hidden;
+    float: left;
+    position: relative;
+}
+
+p.tagText {
+    left: 4px;
+    top: 4px;
+    position: absolute;
+    zIndex: 2;
+    background-color: blue;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    word-break: break-all;
+}
+
+img {
+    display: block;
+}
+
+img.normal {}
+
+img.selected {}
+
+#query {
+    display: flex;
+    justify-content: center;
+}
+
+#search-assistant {
+    display: none;
+    border-style: solid;
+    border-color: #a4b9de;
+    background: white;
+    position: absolute;
+    border-width: 1px;
+    z-index: 100;
+    padding: 10px;
+    flex-direction: column;
+}
+
+#search-assistant.active {
+    display: flex;
+}
+
+#search-assistant p {
+    color: gray;
+    font-style: italic;
+}
+
+#search-assistant-create-tags {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#create-tag-input {
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+    border-color: #a4b9de;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.regular-tag {
+    background: #86b2b5;
+    display: flex;
+    flex-direction: row;
+    margin-right: 5px !important;
+    margin-bottom: 5px !important;
+    border-radius: 10px !important;
+    color: white;
+}
+
+.location-tag {
+    background: #00c1ca !important;
+}
+
+.regular-tag p {
+    color: white !important;
+    font-style: unset !important;
+}
+
+.regular-tag div {
+    color: white !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    cursor: pointer;
+}
+
+.creator-tag {
+    background: transparent !important;
+    border-color: #86b2b5;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.creator-tag input {
+    background: transparent;
+    border: transparent;
+    border-width: 0px;
+    color: white;
+    margin: 8px;
+    color: white !important;
+    font-style: unset !important;
+}
+
+.suggested-tags-list {
+    display: flex;
+}
+
+.suggested-tags-list div {
+    margin-left: 0px;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.suggested-tags-list img {
+    margin: auto;
+    margin-right: 0px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 420px) {
+
+    .hidden {
+        display: none;
+    }
+
+    #noSearch p {
+        font-size: 20px;
+        color: #909eb8;
+    }
+
+    header div input {
+        border-style: solid;
+        border-color: transparent;
+        font-size: medium;
+        height: 35px;
+        width: 100%;
+    }
+
+    header div button {
+        border-style: solid;
+        border-color: transparent;
+        background: white;
+        margin-left: auto;
+    }
+
+    #search-assistant {
+        display: none;
+        border-style: solid;
+        border-color: #a4b9de;
+        background: white;
+        position: absolute;
+        border-width: 1px;
+        z-index: 100;
+        padding: 10px;
+        flex-direction: column;
+        left: 0px !important;
+        right: 0px !important;
+        width: unset !important;
+        margin-top: 15px !important;
+        border-width: 0px !important;
+    }
+
+    #searched-tags {
+        display: flex;
+        flex-direction: column;
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    #searched-tag-message p {
+        margin-left: 0px !important;
+        margin-top: 0px !important;
+    }
+}

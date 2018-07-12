@@ -1,0 +1,41 @@
+<!doctype HTML>
+<html>
+
+    <head>
+        <title>PhotoQ Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="http://web.cs.ucdavis.edu/~amenta/s18/reset.css">
+        <link rel="stylesheet" type="text/css" href="PhotoAlbum.css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    </head>
+
+    <body onresize="viewResize()">
+        <header>
+            <h1 id="logo">PhotoAlbum</h1>
+            <div id="query">
+                <input id="input-text" placeholder="Search for tags..." oninput="getTags()" tabindex="1">
+                <button onclick="unHideSearch();updateImages(false);"><img src="search_icon.png" style="max-width: 100%;max-height:100%;" /></button>
+            </div>
+        </header>
+        <div id="search-assistant">
+            <p>Suggested Tags</p>
+            <div id="search-assistant-suggested-tags"></div>
+        </div>
+        <main>
+            <div id="searched-tags">
+                <div id="searched-tag-message"></div>
+                <div id="searched-tag-list"></div>
+            </div>
+            <div id="photoDisplay">
+            </div>
+        </main>
+        <!-- The Javascript for this page -->
+        <script src="https://unpkg.com/react@15/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+        <script src="prop-types.js"></script>
+        <script src="react-photo-gallery.js"></script>
+        <script src="PhotoAlbum.js"></script>
+    </body>
+
+</html>
