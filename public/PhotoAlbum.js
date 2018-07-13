@@ -467,6 +467,7 @@ function useTag(tagName) {
     inputElement.value = new_tags;
 
     // Continue checking for new suggestions.
+    document.getElementById("input-text").focus();
     getTags();
 }
 
@@ -614,10 +615,23 @@ function hideSearchAssistant() {
     document.getElementById("search-assistant").classList.remove("active");
 }
 
+//
 function viewResize() {
     redrawSearchAssistant();
     hideSearch();
 }
+
+// Make the main input box submit when the user pushes enter.
+var input = document.getElementById("input-text");
+// Execute a function when the user releases a key on the keyboard
+input.addEventListener("keyup", function(event) {
+    event.preventDefault();
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+        // Trigger the button element with a click
+        document.getElementById("search-button").click();
+    }
+});
 
 hideSearchAssistant();
 hideSearch();
