@@ -572,7 +572,6 @@ function removeRemoteTag(imageID, tag) {
         xhr.addEventListener("load", (evt) => {
             if (xhr.status == 200) {
                 console.log("Tag Removed!");
-                updateImages(true);
             } else {
                 console.log("XHR Error!", xhr.responseText);
             }
