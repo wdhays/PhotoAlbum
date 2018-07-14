@@ -1,3 +1,6 @@
+/*Copyright (c) 2015-2017 Sandra Gonzales 
+https://github.com/neptunian/react-photo-gallery/*/
+
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('react'), require('prop-types')) :
 	typeof define === 'function' && define.amd ? define(['react', 'prop-types'], factory) :
