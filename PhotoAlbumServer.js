@@ -138,13 +138,14 @@ function handleServerRequest(request, response) {
 
         /*Build and execute the query string*/
         let queryString = 'SELECT * FROM photoTags WHERE (';
+        let sqlQueryVariables = [];
 
         /*Build a query string that will get all the images that match a set of tags.*/
         for (var i = 0; i < imgTags.length; i++) {
             var singleTag = decodeURIComponent(imgTags[i]);
 
-            queryString += ' (location = "' + singleTag + '" OR (tags LIKE "' + singleTag + '" OR tags LIKE "%,' +
-                singleTag + '" OR tags LIKE "' + singleTag + ',%" OR tags LIKE "%,' + singleTag + ',%"))'
+            queryString += ' (location = ? OR (tags LIKE ? OR tags LIKE ? OR tags LIKE ? OR tags LIKE ?))'
+            sqlQueryVariables.push(singleTag, singleTag, "%," + singleTag, singleTag + ",%", "%," + singleTag + ",%");
 
             if (i + 1 < imgTags.length) {
                 queryString += ' AND';
@@ -154,7 +155,7 @@ function handleServerRequest(request, response) {
         queryString += ") LIMIT 30;";
 
         // Run the query.
-        db.all(queryString, dbSelectCallback);
+        db.all(queryString, sqlQueryVariables, dbSelectCallback);
 
         /*Called when the db is finished with the query.*/
         function dbSelectCallback(err, allRowData) {
@@ -177,9 +178,12 @@ function handleServerRequest(request, response) {
 
         /*Build and execute the query string*/
         let queryString = 'SELECT location, tags FROM photoTags WHERE ';
+        let sqlQueryVariables = [];
 
         for (var i = 0; i < givenTags.length; i++) {
-            queryString += ' location LIKE "%' + givenTags[i] + '%" OR (tags LIKE "' + givenTags[i] + '%" OR tags LIKE "%,' + givenTags[i] + '%")';
+
+            queryString += ' location LIKE ? OR (tags LIKE ? OR tags LIKE ?)';
+            sqlQueryVariables.push("%" + givenTags[i] + "%", givenTags[i] + "%", "%," + givenTags[i] + "%");
 
             if (i + 1 < givenTags.length) {
                 queryString += ' OR';
@@ -188,10 +192,8 @@ function handleServerRequest(request, response) {
         // Close out the string.
         queryString += ";";
 
-        console.log(queryString);
-
         // Run the query.
-        db.all(queryString, dbSelectCallback);
+        db.all(queryString, sqlQueryVariables, dbSelectCallback);
 
         /*Called when the db is finished with the query.*/
         function dbSelectCallback(err, allRowData) {
@@ -245,26 +247,22 @@ function handleServerRequest(request, response) {
     /*This function handles both adding a new tag to an image and removing an old tag from the image.*/
     function selectRowTags(index, tagName, type) {
 
-        cmdStr = `SELECT tags FROM photoTags where id = {}`.format(index);
+        cmdStr = `SELECT tags FROM photoTags where id = ?`;
 
         if (type == 'add') {
             // console.log(cmdStr);
-            db.get(cmdStr, addAfterSelectCallback);
+            db.get(cmdStr, index, addAfterSelectCallback);
         } else {
             // console.log(cmdStr);
-            db.get(cmdStr, removeAfterSelectCallback);
+            db.get(cmdStr, index, removeAfterSelectCallback);
         }
 
         function addAfterSelectCallback(err, row) {
             console.log("Adding Tag!");
-            // console.log("index:" + index);
-            // console.log("tagname:" + tagName);
             if (err) {
                 console.log("Add Select Error: ", err);
             } else {
-                //Do work
-                // console.log("Doing work!")
-                // console.log(row)
+                // Do some formatting before the update.
                 oldTags = row['tags']
                 newTags = oldTags + ',' + tagName;
                 newTags = newTags.replace(',,', ',');
@@ -272,23 +270,19 @@ function handleServerRequest(request, response) {
                 if (newTags.startsWith(',')) { newTags = newTags.slice(1); }
                 newTags = newTags.trim();
                 // console.log(newTags);
-                cmdStr = `UPDATE photoTags SET tags = "{}" WHERE id = {}`.format(newTags, index);
+                cmdStr = `UPDATE photoTags SET tags = ? WHERE id = ?`;
                 // console.log(cmdStr);
-                db.run(cmdStr, dbUpdateCallback);
+                db.run(cmdStr, [newTags, index], dbUpdateCallback);
 
             }
         }
 
         function removeAfterSelectCallback(err, row) {
             console.log("Removing Tag!");
-            // console.log("index:" + index);
-            // console.log("tagname:" + tagName);
             if (err) {
                 console.log("Remove Select Error: ", err);
             } else {
-                //Do work
-                // console.log("Doing work!")
-                // console.log(row)
+                // Do some formatting before the update.
                 oldTags = row['tags']
                 newTags = oldTags.replace(tagName, '');
                 newTags = newTags.replace(',,', ',');
@@ -296,9 +290,9 @@ function handleServerRequest(request, response) {
                 if (newTags.startsWith(',')) { newTags = newTags.slice(1); }
                 newTags = newTags.trim();
                 //console.log(newTags);
-                cmdStr = `UPDATE photoTags SET tags = "{}" WHERE id = {}`.format(newTags, index);
+                cmdStr = `UPDATE photoTags SET tags = ? WHERE id = ?`;
                 //console.log(cmdStr);
-                db.run(cmdStr, dbUpdateCallback);
+                db.run(cmdStr, [newTags, index], dbUpdateCallback);
             }
         }
 
